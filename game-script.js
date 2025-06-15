@@ -73,6 +73,29 @@ class EnhancedBubblePopGame {
                 }
             }
         });
+        
+        // Handle window resize and orientation changes
+        window.addEventListener('resize', () => {
+            this.handleResize();
+        });
+        
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                this.handleResize();
+            }, 100);
+        });
+    }
+    
+    handleResize() {
+        // Adjust existing bubbles positions if they're outside the new container bounds
+        const containerWidth = this.gameContainer.offsetWidth;
+        
+        this.bubbles.forEach(bubble => {
+            const currentLeft = parseInt(bubble.element.style.left);
+            if (currentLeft + bubble.size > containerWidth) {
+                bubble.element.style.left = Math.max(0, containerWidth - bubble.size) + 'px';
+            }
+        });
     }
 
     startGame() {
@@ -161,8 +184,15 @@ class EnhancedBubblePopGame {
         else if (typeRoll < 0.45) bubbleType = 'slow';
         
         const type = this.bubbleTypes[bubbleType];
-        const size = Math.random() * 30 + 40; // 40-70px
-        const x = Math.random() * (this.gameContainer.offsetWidth - size);
+        
+        // Responsive bubble sizing
+        const containerWidth = this.gameContainer.offsetWidth;
+        const containerHeight = this.gameContainer.offsetHeight;
+        const baseSize = Math.min(containerWidth, containerHeight) * 0.08; // 8% of smaller dimension
+        const sizeVariation = baseSize * 0.4; // 40% variation
+        const size = Math.max(30, baseSize + (Math.random() - 0.5) * sizeVariation);
+        
+        const x = Math.random() * (containerWidth - size);
         
         bubble.style.width = size + 'px';
         bubble.style.height = size + 'px';
@@ -182,6 +212,10 @@ class EnhancedBubblePopGame {
         }
         
         bubble.addEventListener('click', () => this.popBubble(bubble, bubbleType));
+        bubble.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.popBubble(bubble, bubbleType);
+        });
         
         this.gameContainer.appendChild(bubble);
         this.bubbles.push({
