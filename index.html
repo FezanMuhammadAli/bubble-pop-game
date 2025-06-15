@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Bubble Pop Game</title>
+    <link rel="stylesheet" href="game-styles.css">
+</head>
+<body>
+    <div class="game-container" id="gameContainer">
+        <div class="start-screen" id="startScreen">
+            <h1>🫧 Enhanced Bubble Pop Game</h1>
+            <div class="high-score">High Score: <span id="displayHighScore">0</span></div>
+            <p>Click bubbles before they float away!<br>
+            🔴 Red = Normal | 🟡 Yellow = Fast Points | 🟢 Green = Slow Motion<br>
+            💣 Black = Bomb | ⭐ Gold = Bonus Life | 🌈 Rainbow = Multi-Pop</p>
+            <div class="difficulty-selector">
+                <label>Difficulty:</label>
+                <select id="difficultySelect">
+                    <option value="easy">Easy</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            <button class="start-btn" onclick="startGame()">Start Game</button>
+            <button class="mute-btn" id="muteBtn" onclick="toggleMute()">🔊</button>
+        </div>
+
+        <div class="game-header">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="level">Level: <span id="level">1</span></div>
+            <div class="lives">Lives: <span id="lives">5</span></div>
+            <div class="multiplier" id="multiplier" style="display: none;">
+                Multiplier: <span id="multiplierValue">1x</span>
+            </div>
+        </div>
+
+        <div class="power-up-bar" id="powerUpBar" style="display: none;">
+            <div class="power-up-item" id="slowMotion">
+                <span>🐌</span>
+                <div class="power-up-timer" id="slowMotionTimer"></div>
+            </div>
+            <div class="power-up-item" id="doublePoints">
+                <span>2x</span>
+                <div class="power-up-timer" id="doublePointsTimer"></div>
+            </div>
+        </div>
+
+        <div class="game-over" id="gameOver">
+            <h2>Game Over!</h2>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <p>Level Reached: <span id="finalLevel">1</span></p>
+            <p id="newHighScore" style="display: none; color: gold; font-weight: bold;">🎉 NEW HIGH SCORE! 🎉</p>
+            <div class="stats">
+                <p>Bubbles Popped: <span id="bubblesPopped">0</span></p>
+                <p>Best Combo: <span id="bestCombo">0</span></p>
+                <p>Accuracy: <span id="accuracy">0%</span></p>
+            </div>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+
+        <div class="pause-screen" id="pauseScreen" style="display: none;">
+            <h2>Game Paused</h2>
+            <p>Press SPACE to resume</p>
+            <button class="restart-btn" onclick="resumeGame()">Resume</button>
+        </div>
+    </div>
+
+    <!-- Audio elements for sound effects -->
+    <audio id="popSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" type="audio/wav">
+    </audio>
+    <audio id="comboSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" type="audio/wav">
+    </audio>
+    <audio id="powerUpSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" type="audio/wav">
+    </audio>
+
+    <script src="game-script.js"></script>
+</body>
+</html>
